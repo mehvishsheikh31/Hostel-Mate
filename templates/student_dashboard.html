@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row g-5">
+    
+    <div class="col-lg-5">
+        <div class="glass-card p-4 h-100">
+            <div class="d-flex align-items-center mb-4 pb-3 border-bottom border-light">
+                <div class="rounded-circle p-2 me-3 d-flex justify-content-center align-items-center shadow-sm" style="width: 45px; height: 45px; background: #8D7B68; color: white;">
+                    <i class="bi bi-pen-fill"></i>
+                </div>
+                <h4 class="fw-bold mb-0">New Request</h4>
+            </div>
+            
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="form-floating mb-3">
+                    <input type="text" name="title" class="form-control" id="id_title" placeholder="Issue">
+                    <label for="id_title">Issue Title</label>
+                </div>
+
+                <div class="row g-2 mb-3">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select name="category" class="form-select" id="id_cat">
+                                <option value="Water">💧 Water</option>
+                                <option value="Electricity">⚡ Electricity</option>
+                                <option value="Cleaning">🧹 Cleaning</option>
+                                <option value="Internet">📶 Internet</option>
+                                <option value="Furniture">🪑 Furniture</option>
+                                <option value="Other">📦 Other</option>
+                            </select>
+                            <label for="id_cat">Category</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select name="priority" class="form-select" id="id_pri">
+                                <option value="Low">Low Priority</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="High">Urgent!</option>
+                            </select>
+                            <label for="id_pri">Priority</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-2 mb-3">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" name="hostel_block" class="form-control" id="id_blk" placeholder="A">
+                            <label for="id_blk">Block</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" name="room_no" class="form-control" id="id_rm" placeholder="101">
+                            <label for="id_rm">Room No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-floating mb-4">
+                    <textarea name="description" class="form-control" placeholder="Desc" id="id_desc" style="height: 100px"></textarea>
+                    <label for="id_desc">Describe the problem...</label>
+                </div>
+
+                <div class="mb-4 p-3 rounded-3 border bg-light text-center">
+                    <label class="form-label small text-muted mb-2 d-block">
+                        <i class="bi bi-camera-fill me-1"></i> Upload Evidence (Optional)
+                    </label>
+                    <input type="file" name="image" class="form-control form-control-sm">
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-3 shadow-sm fw-bold">
+                    Submit Complaint
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        <div class="glass-card p-4 h-100">
+            <h4 class="fw-bold mb-4 ms-2">Your History</h4>
+
+            {% if complaints %}
+                <div class="vstack gap-3">
+                    {% for c in complaints %}
+                    <div class="p-3 bg-white rounded-4 shadow-sm border border-light d-flex justify-content-between align-items-center complain-item">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-4 d-flex justify-content-center align-items-center" 
+                                 style="width: 55px; height: 55px; background: #F5EBE0; font-size: 1.2rem;">
+                                {% if c.category == 'Electricity' %}⚡
+                                {% elif c.category == 'Water' %}💧
+                                {% elif c.category == 'Internet' %}📶
+                                {% elif c.category == 'Cleaning' %}🧹
+                                {% else %}📝{% endif %}
+                            </div>
+                            
+                            <div>
+                                <h6 class="mb-1 fw-bold text-dark">{{ c.title }}</h6>
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar3 me-1"></i> {{ c.created_at|date:"d M" }} 
+                                    <span class="mx-1">•</span> 
+                                    Room {{ c.room_no }}
+                                </small>
+                            </div>
+                        </div>
+
+                        <div>
+                            {% if c.status == 'Pending' %}
+                                <span class="badge bg-warning text-dark border border-warning rounded-pill px-3 py-2">Pending</span>
+                            {% elif c.status == 'In Progress' %}
+                                <span class="badge bg-info text-dark border border-info rounded-pill px-3 py-2">Working</span>
+                            {% else %}
+                                <span class="badge bg-success rounded-pill px-3 py-2">Resolved</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <div class="mb-3 text-muted opacity-50 display-1">
+                        <i class="bi bi-cup-hot"></i>
+                    </div>
+                    <p class="text-muted">No complaints yet.<br>Enjoy your stay!</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .complain-item { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .complain-item:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05) !important; }
+</style>
+{% endblock %}

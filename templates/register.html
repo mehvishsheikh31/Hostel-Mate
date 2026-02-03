@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card p-4">
+            <h3 class="text-center mb-4 fw-bold">Student Registration</h3>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small text-muted">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small class="text-muted d-block mt-1">{{ field.help_text }}</small>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary w-100 mt-3 py-2">Create Account</button>
+            </form>
+            <p class="text-center mt-3 small">
+                Already have an account? <a href="{% url 'login' %}" style="color: var(--accent-brown);">Login here</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    var inputs = document.querySelectorAll('input');
+    inputs.forEach(function(input){
+        input.classList.add('form-control');
+    });
+</script>
+{% endblock %}

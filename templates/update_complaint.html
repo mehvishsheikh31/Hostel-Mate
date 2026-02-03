@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-white border-bottom p-3">
+                <h5 class="mb-0 fw-bold">Complaint #{{ complaint.id }} Details</h5>
+            </div>
+            <div class="card-body p-4">
+                <div class="mb-3">
+                    <label class="text-muted small text-uppercase">Issue Title</label>
+                    <p class="fw-bold fs-5">{{ complaint.title }}</p>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="text-muted small text-uppercase">Description</label>
+                    <p class="bg-light p-3 rounded">{{ complaint.description }}</p>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <label class="text-muted small text-uppercase">Reported By</label>
+                        <p>{{ complaint.user.username }}</p>
+                    </div>
+                    <div class="col-6">
+                        <label class="text-muted small text-uppercase">Location</label>
+                        <p>{{ complaint.hostel_block }} - Room {{ complaint.room_no }}</p>
+                    </div>
+                </div>
+
+                {% if complaint.image %}
+                    <div class="mb-4">
+                        <label class="text-muted small text-uppercase d-block">Attached Image</label>
+                        <img src="{{ complaint.image.url }}" class="img-fluid rounded border mt-2" style="max-height: 200px;">
+                    </div>
+                {% endif %}
+
+                <hr>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Update Status</label>
+                        {{ form.status }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Admin Remarks</label>
+                        {{ form.admin_remarks }}
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-secondary">Back to Dashboard</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('select, textarea').forEach(el => el.classList.add('form-control'));
+</script>
+{% endblock %}

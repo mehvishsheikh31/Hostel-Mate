@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row align-items-center py-5">
+    <div class="col-lg-6">
+        <h1 class="display-4 fw-bold mb-3" style="color: #2c2c2c;">
+            Smart Hostel <br>
+            <span style="color: var(--accent-brown);">Maintenance</span>
+        </h1>
+        <p class="lead text-muted mb-4">
+            Experience hassle-free living. Report issues in seconds, track real-time status, and let us handle the repairs.
+        </p>
+        {% if not user.is_authenticated %}
+            <div class="d-flex gap-3">
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg shadow-sm">Student Login</a>
+                <a href="{% url 'register' %}" class="btn btn-outline-dark btn-lg">Create Account</a>
+            </div>
+        {% else %}
+            <a href="{% url 'student_dashboard' %}" class="btn btn-primary btn-lg">Go to Dashboard →</a>
+        {% endif %}
+        
+        <div class="row mt-5">
+            <div class="col-4">
+                <h3 class="fw-bold mb-0">24h</h3>
+                <small class="text-muted">Response Time</small>
+            </div>
+            <div class="col-4">
+                <h3 class="fw-bold mb-0">100%</h3>
+                <small class="text-muted">Digital Tracking</small>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6 text-center">
+        <div style="background: linear-gradient(45deg, #e0d8c3, #f5f0e6); border-radius: 30px; padding: 40px; transform: rotate(-2deg);">
+            <div class="card p-4 shadow-lg border-0" style="transform: rotate(2deg);">
+                <div class="d-flex align-items-center mb-3">
+                    <div style="width: 12px; height: 12px; background: #ff5f57; border-radius: 50%; margin-right: 6px;"></div>
+                    <div style="width: 12px; height: 12px; background: #ffbd2e; border-radius: 50%; margin-right: 6px;"></div>
+                    <div style="width: 12px; height: 12px; background: #28c940; border-radius: 50%;"></div>
+                </div>
+                <h5 class="fw-bold">Recent Activity</h5>
+                <hr>
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge bg-warning text-dark me-2">Pending</span>
+                    <span>Room 101: Fan not working</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="badge bg-success me-2">Resolved</span>
+                    <span>Room 204: Water leakage fixed</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

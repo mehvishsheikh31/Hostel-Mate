@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Mate | Premium</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <style>
+        :root {
+            /* THE BEIGE PALETTE */
+            --primary-brown: #8D7B68;  /* Mocha */
+            --dark-brown: #5C4033;     /* Coffee */
+            --accent-sand: #C8B6A6;    /* Sand */
+            --light-cream: #F9F7F2;    /* Cream */
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --text-dark: #4A4A4A;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            /* ANIMATED BEIGE GRADIENT */
+            background: linear-gradient(-45deg, #FDFBF7, #F2EBE5, #E6DCD3, #DBC8B6);
+            background-size: 400% 400%;
+            animation: beigeFlow 20s ease infinite;
+            min-height: 100vh;
+        }
+
+        @keyframes beigeFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1, h2, h3, h4, .navbar-brand {
+            font-family: 'Playfair Display', serif; /* Elegant Serif font */
+            color: var(--dark-brown);
+        }
+
+        /* GLASS CARD (Warm tint) */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px -10px rgba(92, 64, 51, 0.1);
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: rgba(253, 251, 247, 0.85) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(141, 123, 104, 0.1);
+        }
+        .nav-link { color: var(--dark-brown) !important; font-weight: 500; transition: 0.3s; }
+        .nav-link:hover { color: var(--primary-brown) !important; letter-spacing: 0.5px; }
+
+        /* BUTTONS (Brown Gradient) */
+        .btn-primary {
+            background: linear-gradient(135deg, #8D7B68 0%, #6D5A47 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 10px 24px;
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(141, 123, 104, 0.2);
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #7A6956 0%, #594838 100%);
+            transform: translateY(-2px);
+        }
+
+        /* INPUTS */
+        .form-floating > .form-control, 
+        .form-floating > .form-select {
+            border-radius: 12px;
+            border: 1px solid rgba(141, 123, 104, 0.2);
+            background: rgba(255,255,255,0.8);
+            color: var(--dark-brown);
+        }
+        .form-control:focus {
+            box-shadow: 0 0 0 4px rgba(141, 123, 104, 0.15);
+            border-color: var(--primary-brown);
+        }
+        .form-floating label { color: #887; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-3" href="{% url 'index' %}">
+        <i class="bi bi-house-heart-fill" style="color: var(--primary-brown);"></i> Hostel<span style="color: var(--primary-brown);">Mate</span>
+    </a>
+    
+    <div class="navbar-nav ms-auto align-items-center gap-3">
+        {% if user.is_authenticated %}
+            <div class="d-flex align-items-center bg-white px-3 py-1 rounded-pill border shadow-sm">
+                <i class="bi bi-person-circle me-2" style="color: var(--primary-brown);"></i>
+                <span class="fw-bold small text-muted">{{ user.username }}</span>
+            </div>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-dark rounded-pill px-3" style="border-color: var(--primary-brown); color: var(--primary-brown);">Logout</button>
+            </form>
+        {% else %}
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+            <a class="btn btn-primary" href="{% url 'register' %}">Get Started</a>
+        {% endif %}
+    </div>
+  </div>
+</nav>
+
+<div style="height: 100px;"></div> <div class="container mb-5">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    {% if messages %}
+        {% for message in messages %}
+            Swal.fire({
+                title: '{{ message.tags|title }}!',
+                text: '{{ message }}',
+                icon: '{{ message.tags }}',
+                confirmButtonColor: '#8D7B68'
+            });
+        {% endfor %}
+    {% endif %}
+</script>
+</body>
+</html>
