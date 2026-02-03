@@ -7,7 +7,7 @@
 ---
 
 ## 🚀 Live Demo
-### 🌐 [Click Here to View Live Website](http://mehvish.pythonanywhere.com)
+### 🌐 [Click Here to View Live Website](https://mehvishsheikh31.pythonanywhere.com/)
 *(Replace this link if your URL is different)*
 
 ---
@@ -40,17 +40,6 @@
 | **Visualization** | Chart.js (JavaScript Library) |
 | **Deployment** | PythonAnywhere Cloud |
 
----
-
-## 📸 Screenshots
-
-### 1. Admin Analytics Dashboard
-> *(Add a screenshot of your dashboard charts here)*
-
-### 2. Student Complaint Portal
-> *(Add a screenshot of your form here)*
-
----
 
 ## ⚙️ Local Installation Guide
 
