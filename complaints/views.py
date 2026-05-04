@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
 from .models import Complaint
 from .forms import ComplaintForm, StatusUpdateForm
 from django.db.models import Count
@@ -10,7 +9,7 @@ import json
 import csv
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test # <--- IMPORTANT
-from .models import Complaint
+
 
 def index(request):
     return render(request, 'index.html')
@@ -58,7 +57,7 @@ from django.db.models import Count
 
 # Helper function to check if user is admin
 def is_admin(user):
-    return user.is_superuser
+    return user.is_staff
 @login_required
 def admin_dashboard(request):
     if not request.user.is_staff:
