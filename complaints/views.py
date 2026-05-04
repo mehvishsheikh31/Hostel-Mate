@@ -9,7 +9,6 @@ from django.contrib import messages
 import json
 import csv
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test # <--- IMPORTANT
 from .models import Complaint
 
@@ -141,9 +140,11 @@ def export_complaints(request):
     return response
 
 # Add this import at the top if not present:
-
+@login_required
 @user_passes_test(is_admin)
 def delete_complaint(request, id):
     complaint = get_object_or_404(Complaint, id=id)
-    complaint.delete()
+    if request.method == 'POST':
+        complaint.delete()
+        messages.success(request, 'Complaint deleted successfully.')
     return redirect('admin_dashboard')
